@@ -19,7 +19,8 @@ final class Version20260403161811 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // necesitaba poner el default a la data actual 
+        // necesitaba poner el default a la data actual (para no tener que entrarlos manualmente en bd-
+        // sino pongo nada se inserta el curdate())
 
         $this->addSql("ALTER TABLE PROVEEDORES 
         CHANGE created_at created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
