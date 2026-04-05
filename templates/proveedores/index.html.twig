@@ -1,0 +1,154 @@
+{% extends "base.html.twig" %}
+{% block titulo %}Listado Proveedores{% endblock %}
+{% block body %}
+
+{% for message in app.flashes('deleted') %}
+<div class="alert alert-danger m-3 text-center flash-message fade show" role="alert">
+	{{ message }}
+</div>
+{% endfor %}
+
+{# este index esta repartido en tablas para desktop y cartas para mobiles
+	tenia la tabla hecha al principio y estaba explorando algo mejor
+	iba a hacer carta con numeros 1 - 2 - 3 en un cuadro y despues hacer una ruta
+	que te lleva al proovedor exacto con su id y ahi tendras opciones de modificar o eliminar
+	pero eso consumira mas tiempo ya que llevo unas horas entre la table y las cartas.. 
+	he decidido poner dos versiones para no borar las cartas que me han gustado tambien al final.
+	las cartas al final son simples, creo que en una version de movil ira mejor, todo accesible
+	con una mano #}
+
+{# tabla para desktop #}
+
+<div class=" container-fluid d-none d-md-block">
+
+	<table class="table table-hover mt-4">
+		<thead class="table-light">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Correo Electorinic</th>
+				<th scope="col">Numero</th>
+				<th scope="col">Tipo</th>
+				<th scope="col">Activo</th>
+				<th scope="col">Modificar</th>
+				<th scope="col">Eliminar</th>
+			</tr>
+		</thead>
+		<tbody class="table-group-divider">
+			{% for proveedor in proveedores %}
+			<tr>
+				<th scope="row">{{ loop.index }}</th>
+				<td>{{ proveedor.nombre }}</td>
+				<td>{{ proveedor.email }}</td>
+				<td>{{ proveedor.telefono }}</td>
+				<td>{{ proveedor.tipoProveedor }}</td>
+				<td>{% if proveedor.activo %} si {% else %}
+					no
+					{% endif %}
+				</td>
+				<td>
+					<div class="btn btn-warning">
+						modificar</div>
+				</td>
+				<td>
+					{# voy a re utilizar un modal que usé en mi ultimo proyecto
+					pero de laravel, cambiare un par de cosas para que lo acepta symfony #}
+					<button class="btn btn-danger" data-bs-toggle="modal"
+						data-bs-target="#modal{{ proveedor.id }}">Borrar</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="modal{{ proveedor.id }}" tabindex="-1"
+						aria-labelledby="modalLabel{{ proveedor.id }}" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5 text-danger" id="modalLabel{{ proveedor.id }}">
+										Atencion!!</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									Estas a punto de borrar el proveedor {{ proveedor.nombre }}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<form action="{{ path('borrar_proveedor', {id: proveedor.id}) }}" method="POST">
+										{# concatenacions symfony -> delete4 #}
+										<input type="hidden" name="_token"
+											value="{{csrf_token('delete' ~ proveedor.id)}}">
+										<button type="submit" class="btn btn-danger">Borrar</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</td>
+
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{# carta para movil #}
+<div class="container-fluid">
+
+	<div class="row m-3 g-3 text-center d-md-none">
+		{% for proveedor in proveedores %}
+		<div class="col-12 col-sm-6 p-2 p-2">
+			<div class="border rounded p-3 h-100 shadow-sm">
+				<h5 class="text-muted text-center">
+					<div class="border border-dark">{{ loop.index }}</div>
+				</h5>
+				<h5 class="fw-bold">{{ proveedor.nombre }}</h5>
+				<p class="fw-bold">Correo: {{ proveedor.email }}</p>
+				<p class="fw-bold">Telefono: {{ proveedor.telefono }}</p>
+				<p class="fw-bold">Tipo: {{ proveedor.tipoProveedor }}</p>
+				<p class="fw-bold">Activo: {% if proveedor.activo %} si {% else %}
+					no
+					{% endif %}</p>
+				<div class="row g-2 mt-auto">
+					<div class="col-6">
+						<button class="btn btn-warning w-100">Modificar</button>
+					</div>
+					<div class="col-6">
+						<button class="btn btn-danger w-100" data-bs-toggle="modal"
+							data-bs-target="#modal{{ proveedor.id }}">Borrar</button>
+						<!-- Modal -->
+						<div class="modal fade" id="modal{{ proveedor.id }}" tabindex="-1"
+							aria-labelledby="modalLabel{{ proveedor.id }}" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5 text-danger" id="modalLabel{{ proveedor.id }}">
+											Atencion!!</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Estas a punto de borrar el proveedor {{ proveedor.nombre }}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<form action="{{ path('borrar_proveedor', {id: proveedor.id}) }}" method="POST">
+											{# concatenacions symfony -> delete4 #}
+											<input type="hidden" name="_token"
+												value="{{csrf_token('delete' ~ proveedor.id)}}">
+											<button type="submit" class="btn btn-danger">Borrar</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

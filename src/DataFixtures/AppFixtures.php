@@ -9,7 +9,7 @@ use App\Entity\Proveedor;
 
 // esto funciona pero cuando lo llevas a bd borra los datos
 // que tienes en la table y inserta los nuevos
-// entonces mirare alternativa ( faker ) para insertar datos sin borrar nada de bd
+// entonces mirare alternativa ( faker ) para insertar datos sin borrar nada de bd (purge)
 
 class AppFixtures extends Fixture
 {

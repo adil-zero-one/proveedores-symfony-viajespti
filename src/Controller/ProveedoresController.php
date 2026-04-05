@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Proveedor;
 use App\Form\ProveedorFormType;
 use App\Repository\ProveedorRepository;
-
+use SebastianBergmann\CodeCoverage\Test\Target\Method;
 
 final class ProveedoresController extends AbstractController
 {
@@ -39,5 +39,19 @@ final class ProveedoresController extends AbstractController
     //     ]);
     // }
 
+
+    // eliminar un proveedor
+
+    #[Route('/eliminar/{id}', name: 'borrar_proveedor', methods:['POST'])]
+    public function delete(Request $request, Proveedor $proveedor, EntityManagerInterface $em): Response
+    {
+        // proteccion csrf
+        if($this->isCsrfTokenValid('delete' . $proveedor->getId(), $request->request->get('_token'))){
+            $em->remove($proveedor);
+            $em->flush();
+            $this->addFlash('deleted', 'Proveedor '.  $proveedor->getNombre() . ' eliminado correctamente');
+        }
+        return $this->redirectToRoute('listado_proveedores');
+    }
    
 }
