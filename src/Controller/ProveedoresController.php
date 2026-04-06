@@ -116,6 +116,14 @@ final class ProveedoresController extends AbstractController
     // aqui una funcion extra que te deja generar 10 proveedores
     // de manera automatica, la he hecho con el faker en command
     // la implemento en el navbar tambien
+    // si se añaden muchos proveedores (probas), podria añadir button eliminar
+    // 10 proveedores, pero lo dejos para la proxima!
+    // aqui os dejo commanda base datos para borrar 10,20,30 ultimos
+    // creados proveedores: borrar ultimos 30 prov creados
+    /*  DELETE from proveedores
+        WHERE created_at is not null
+        order by created_at desc 
+        limit 30; */
 
     #[Route('/generar10', name: 'generar_proveedores')]
     public function seed(EntityManagerInterface $em): Response
@@ -135,7 +143,6 @@ final class ProveedoresController extends AbstractController
             ]));
             $proveedor->setActivo($faker->boolean());
             $em->persist($proveedor);
-            
         }
 
         $em->flush();

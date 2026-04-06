@@ -22,7 +22,7 @@ final class Version20260403161811 extends AbstractMigration
         // necesitaba poner el default a la data actual (para no tener que entrarlos manualmente en bd-
         // sino pongo nada se inserta el curdate())
 
-        $this->addSql("ALTER TABLE PROVEEDORES 
+        $this->addSql("ALTER TABLE proveedores 
         CHANGE created_at created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         CHANGE updated_at updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP");
     }
