@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block titulo %}
+Bienvenido Proveedor
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    
+
+    {% if errors is defined %}
+    <div class="alert alert-danger">
+        {% for error in errors %}
+            <div>{{ error.message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+    <h2 class="mb-4 text-center">Crear nuevo proveedor</h2>
+
+    <form method="POST">
+
+    <div class="mb-3 text-start">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" value="{{ proveedor.nombre }}">
+    </div>
+
+    <div class="mb-3 text-start">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" value="{{ proveedor.email }}">
+    </div>
+
+    <div class="mb-3 text-start">
+        <label class="form-label">Teléfono</label>
+        <input type="text" name="telefono" class="form-control" value="{{ proveedor.telefono }}">
+    </div>
+
+    <div class="mb-3 text-start">
+        <label class="form-label">Tipo proveedor</label>
+        <select name="tipoProveedor" class="form-select">
+            <option value="hotel" {{ proveedor.tipoProveedor == 'hotel' ? 'selected' }}>Hotel</option>
+            <option value="crucero" {{ proveedor.tipoProveedor == 'crucero' ? 'selected' }}>Crucero</option>
+            <option value="estación de esquí" {{ proveedor.tipoProveedor == 'estación de esquí' ? 'selected' }}>Estación de esquí</option>
+            <option value="parque temático" {{ proveedor.tipoProveedor == 'parque temático' ? 'selected' }}>Parque temático</option>
+        </select>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="activo" class="form-check-input" {{ proveedor.activo ? 'checked' }}>
+        <label class="form-check-label">Activo</label>
+    </div>
+
+    <button class="btn btn-primary">Guardar cambios</button>
+</form>
+
+
+</div>
+{% endblock %}

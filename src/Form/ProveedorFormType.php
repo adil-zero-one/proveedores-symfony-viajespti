@@ -3,13 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Proveedor;
-use Doctrine\DBAL\Types\TextType;
+// use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProveedorFormType extends AbstractType
 {
@@ -23,16 +24,20 @@ class ProveedorFormType extends AbstractType
                 'choices' => [
                     'Hotel' => 'hotel',
                     'Crucero' => 'crucero',
-                    'Estación de esquí' => 'estacion de esqui',
-                    'Parque temático' => 'parque tematico'
+                    'Estación de esquí' => 'estación de esquí',
+                    'Parque temático' => 'parque temático'
                 ]
             ])
             ->add('activo')
             ->add('created_at', null, [
                 'widget' => 'single_text',
+                // datas de creacion i actualizacion(modificacion)
+                // los pondre como incambiables
+                'disabled' => true,
             ])
             ->add('updated_at', null, [
                 'widget' => 'single_text',
+                'disabled' => true
             ])
         ;
     }

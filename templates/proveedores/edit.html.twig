@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+{% block titulo %}Modificar Proveedor{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('modificado') %}
+<div class="alert alert-warning text-center mt-4">{{ message }}</div>
+{% endfor %}
+
+<h2 class="m-4 text-center">Editar proveedor: {{ proveedor.nombre }}</h2>
+
+<div class="row ">
+    {{ form_start(form) }}
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 p-4 text-center">
+        <div class="mb-3">{{ form_row(form.nombre) }}</div>
+        <div class="mb-3">{{ form_row(form.email) }}</div>
+        <div class="mb-3">{{ form_row(form.telefono) }}</div>
+        <div class="mb-3">{{ form_row(form.tipo_proveedor) }}</div>
+        <div class="mb-3">{{ form_row(form.activo) }}</div>
+        <div class="mb-3">{{ form_row(form.created_at) }}</div>
+        <div class="mb-3">{{ form_row(form.updated_at) }}</div>
+        <button class="btn btn-warning mt-3">Guardar cambios</button>
+        <a href="{{ path('listado_proveedores') }}" class="btn btn-outline-primary mt-3">Volver al listado</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}

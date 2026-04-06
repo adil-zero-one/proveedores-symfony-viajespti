@@ -31,7 +31,12 @@ class Proveedor
     // COLUMNA NOMBRE
     #[ORM\Column(length: 50, nullable: false)]
     #[Assert\NotBlank(message: "El campo nombre es obligatiorio!")] // obligacion
-    #[Assert\Length(min: 2, max: 50)] // validacion
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: "El nombre debe tener al menos 3 characters",
+        maxMessage: "El nombre debe tener como maximo 50 characteres!"
+    )] // validacion
     private ?string $nombre = null;
 
     public function getNombre(): ?string
@@ -154,10 +159,11 @@ class Proveedor
     // cambiamos la data de actualizacion
 
     #[ORM\PreUpdate]
-    public function actualizarProveedor(): void{
+    public function actualizarProveedor(): void
+    {
         $this->updated_at = new \DateTimeImmutable();
     }
-    
+
     // Getters y Setters automaticos de comando
 
     public function getTipoProveedor(): ?string
