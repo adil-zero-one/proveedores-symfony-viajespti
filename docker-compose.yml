@@ -11,9 +11,9 @@ services:
       APP_SECRET: docker_secret_123
       DATABASE_URL: "mysql://root:root@db:3306/proveedores_viajesPTi?serverVersion=8.0&charset=utf8mb4"
     depends_on:
-      - db
-    volumes:
-      - .:/var/www/html
+      db:
+        condition: service_healthy
+    restart: on-failure
 
   db:
     image: mysql:8.0
@@ -25,6 +25,12 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./proveedores_viajespti.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   db_data:
