@@ -1,4 +1,19 @@
-Cómo ejecutar el proyecto (sin Docker)
+Cómo ejecutar el proyecto (con Docker)
+Opción 1: Con Docker (recomendado)
+Requisitos: Docker Desktop instalado y en ejecución.
+Pasos:
+bash# 1. Construir y arrancar los contenedores
+docker-compose up --build -d
+
+# 2. Esperar ~30 segundos y limpiar caché
+docker-compose exec app php bin/console cache:clear
+
+La base de datos se importa automáticamente al arrancar. No hace falta ningún paso adicional.
+
+# 3. Abrir la aplicación
+http://localhost:8080
+
+Opción 2: Cómo ejecutar el proyecto (sin Docker)
 1. Requisitos:
 
 PHP 8.2 o superior 
@@ -51,3 +66,7 @@ migrations/ – Migraciones de Doctrine
 proveedores_viajespti.sql – Base de datos exportada
 
 composer.json – Dependencias del proyecto
+
+Dockerfile - Imagen Docker del proyecto
+
+docker-compose.yml - Orquestación de contenedores
