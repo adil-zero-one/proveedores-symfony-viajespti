@@ -112,4 +112,34 @@ final class ProveedoresController extends AbstractController
             'proveedor' => $proveedor
         ]);
     }
+
+    // aqui una funcion extra que te deja generar 10 proveedores
+    // de manera automatica, la he hecho con el faker en command
+    // la implemento en el navbar tambien
+
+    #[Route('/generar10', name: 'generar_proveedores')]
+    public function seed(EntityManagerInterface $em): Response
+    {
+        $faker = \Faker\Factory::create('es_ES');
+
+        for ($i = 0; $i < 10; $i++) {
+            $proveedor = new Proveedor();
+            $proveedor->setNombre($faker->company());
+            $proveedor->setEmail($faker->unique()->email());
+            $proveedor->setTelefono($faker->phoneNumber());
+            $proveedor->setTipoProveedor($faker->randomElement([
+                "hotel",
+                "crucero",
+                "estacion de esqui",
+                "parque tematico"
+            ]));
+            $proveedor->setActivo($faker->boolean());
+            $em->persist($proveedor);
+            
+        }
+
+        $em->flush();
+        $this->addFlash('generarProveedores', '10 Proveedores generados correctamente!');
+        return $this->redirectToRoute('listado_proveedores');
+    }
 }

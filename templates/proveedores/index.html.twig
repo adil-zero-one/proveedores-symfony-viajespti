@@ -2,15 +2,23 @@
 {% block titulo %}Listado Proveedores{% endblock %}
 {% block body %}
 
+{# mensaje borrar proveedor  #}
 {% for message in app.flashes('deleted') %}
 <div class="alert alert-danger m-3 text-center flash-message fade show" role="alert">
 	{{ message }}
 </div>
 {% endfor %}
 
+{# mensaje añadir proveedor  #}
 {% for message in app.flashes('nuevoProveedor') %}
 <div class="alert alert-success text-center mt-4">{{ message }}</div>
 {% endfor %}
+
+{# mensaje generar 10 proveedores  #}
+{% for message in app.flashes('generarProveedores') %}
+<div class="alert alert-success text-center mt-4">{{ message }}</div>
+{% endfor %}
+
 
 {# este index esta repartido en tablas para desktop y cartas para mobiles
 tenia la tabla hecha al principio y estaba explorando algo mejor
@@ -22,6 +30,10 @@ las cartas al final son simples, creo que en una version de movil ira mejor, tod
 con una mano #}
 
 
+{# script toggle mode light switch dark -> light #}
+{# en una practica de javaScript en classe hemos hecho esta actividad
+de dark-light mode, lo implemento aqui tambien #}
+<button class="btn btn-dark m-2 mb-0" id="toggle-mode"><span class="text">Dark</span></button>
 
 {# tabla para desktop #}
 
@@ -135,5 +147,58 @@ pero de laravel, cambiare un par de cosas para que lo acepta symfony #}
 	</div>
 </div>
 {% endfor %}
+
+{# script toggle mode light switch dark -> light #}
+<script>
+
+	const lightSwitch = document.querySelector("#toggle-mode")
+	const selectAll = document.querySelector("body")
+
+	lightSwitch.addEventListener('click', () => {
+		document.body.classList.toggle('dark-mode')
+		if (document.body.classList.contains('dark-mode')) {
+			lightSwitch.textContent = 'Light'
+
+		} else {
+			lightSwitch.textContent = 'Dark'
+		}
+	})
+</script>
+
+<style>
+	body.dark-mode {
+    background-color: #121212;
+    color: #f9f9f9;
+}
+
+body.dark-mode .table {
+    --bs-table-bg: #1e1e1e;
+    --bs-table-color: #f9f9f9;
+    --bs-table-border-color: #444;
+    --bs-table-hover-bg: #2a2a2a;
+	
+}
+
+body.dark-mode .table thead {
+    --bs-table-bg: #2a2a2a;
+    --bs-table-color: #f9f9f9;
+}
+
+body.dark-mode .border {
+    border-color: #444 !important;
+}
+
+body.dark-mode .border.rounded {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .navbar {
+    background-color: #1e1e1e !important;
+}
+body.dark-mode .table-hover tbody tr:hover td,
+body.dark-mode .table-hover tbody tr:hover th {
+    color: #f9f9f9;
+}
+</style>
 
 {% endblock %}
